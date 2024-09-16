@@ -1,10 +1,13 @@
 package org.vad1mchk.aisystems.lab02.knowledge;
 
 import org.jpl7.Query;
+import org.vad1mchk.aisystems.lab02.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+
+import static org.vad1mchk.aisystems.lab02.util.StringUtils.stripSingleQuotes;
 
 public class PrologQueryEngine {
     public PrologQueryEngine(String knowledgeBaseFilePath) {
@@ -44,6 +47,7 @@ public class PrologQueryEngine {
     private List<String> queryResultsToList(Query query, String variable) {
         return Arrays.stream(query.allSolutions())
                 .map(solution -> Objects.toString(solution.get(variable)))
+                .map(StringUtils::stripSingleQuotes)
                 .toList();
     }
 }

@@ -11,4 +11,11 @@ public class StringUtils {
         }
         return str.substring(0, prefix.length()).equalsIgnoreCase(prefix);
     }
+
+    public static String stripSingleQuotes(String input) {
+        if (input != null && input.startsWith("'") && input.endsWith("'")) {
+            return input.substring(1, input.length() - 1);
+        }
+        return input;
+    }
 }
