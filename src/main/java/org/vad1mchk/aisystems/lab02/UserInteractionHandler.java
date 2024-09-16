@@ -105,13 +105,13 @@ public class UserInteractionHandler {
                   last query without "also", or the first one in the conversation.
                   E. g.
                   ```
-                  I like defense attorneys.
-                  I also don't like criminals.
+                  I like people who are defense attorneys.
+                  I also don't like people who are criminals.
                   ```
                   will look for characters who satisfy all conditions, but
                   ```
-                  I like defense attorneys.
-                  I don't like criminals.
+                  I like people who are defense attorneys.
+                  I don't like people who are criminals.
                   ```
                   will discard the previous conditions and look only for characters satisfying the last condition.
                 - "who" is reserved for search by role, and "that" is reserved for search by relationship to other
