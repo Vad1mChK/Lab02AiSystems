@@ -92,7 +92,7 @@ public class UserInteractionHandler {
                 - I [also] don't like <Character>. : Notes down that you don't like this character.
                 - I [also] [don't] like people who are <Role>. : Notes down that you [don't] like
                   people of this <Role>.
-                - I [also] [don't] like people that <Relationship> the person <Character>. : 
+                - I [also] [don't] like people that <Relationship> the person <Character>. :
                   Notes down that you [don't] like people that have this <Relationship> with this <Character>.
                 - Exit / Quit / Goodbye : Exit this program.
                 Supported <Role>s:
@@ -101,7 +101,7 @@ public class UserInteractionHandler {
                 Supported <Relationship>s:
                 - kill, assist, are friends of, are victims of
                 Notes:
-                - Typing the optional "also" in your query will keep the context of the previous inquiries, up to the 
+                - Typing the optional "also" in your query will keep the context of the previous inquiries, up to the
                   last query without "also", or the first one in the conversation.
                   E. g.
                   ```
@@ -165,7 +165,7 @@ public class UserInteractionHandler {
         return processRecommendation(resultList);
     }
 
-    public CommandResult handleLikeDislikeByRoleCommand(String input) {
+    private CommandResult handleLikeDislikeByRoleCommand(String input) {
         Matcher matcher = LIKE_DISLIKE_BY_ROLE_PATTERN.matcher(input);
         if (!matcher.matches()) {
             System.out.println("[!] Cannot parse command. Type \"Help me\" to see valid commands.");
@@ -261,15 +261,6 @@ public class UserInteractionHandler {
         System.out.println("Here are the characters that might be to your liking (" + resultList.size() + ").");
         resultList.forEach(it -> System.out.println("- " + it));
         return CommandResult.SUCCESS;
-    }
-
-    private void printRecommendationResultList(List<String> results) {
-        if (results.isEmpty()) {
-            System.out.println("No recommendations found matching your preferences.");
-        } else {
-            System.out.println("Recommendations found matching your preferences (" + results.size() + "):");
-            results.forEach(it -> System.out.println("- " + it));
-        }
     }
 
     private enum CommandResult {
