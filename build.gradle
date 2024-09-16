@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.vad1mchk'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // implementation 'jpl:jpl:7.4.0'
+    implementation files('libs/jpl.jar')
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+tasks.withType(JavaExec).configureEach {
+    // Ensure Prolog native libraries are available to Java at runtime
+    systemProperty 'java.library.path', 'C:\\Program Files\\swipl\\bin'
+}
+
+test {
+    useJUnitPlatform()
+}

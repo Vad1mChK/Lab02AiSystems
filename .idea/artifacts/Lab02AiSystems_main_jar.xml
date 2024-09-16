@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Lab02AiSystems.main:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Lab02AiSystems_main_jar</output-path>
+    <root id="archive" name="Lab02AiSystems.main.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="Lab02AiSystems.main" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/jpl/jpl/7.4.0/727cde0a27a72cd85e2f8b73380af39f19ebf6ca/jpl-7.4.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
