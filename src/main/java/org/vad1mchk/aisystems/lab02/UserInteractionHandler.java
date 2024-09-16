@@ -1,5 +1,6 @@
 package org.vad1mchk.aisystems.lab02;
 
+import org.vad1mchk.aisystems.lab02.knowledge.CharacterRelationshipType;
 import org.vad1mchk.aisystems.lab02.knowledge.CharacterRole;
 import org.vad1mchk.aisystems.lab02.knowledge.RecommendationService;
 
@@ -12,15 +13,6 @@ import java.util.regex.Pattern;
 import static org.vad1mchk.aisystems.lab02.util.StringUtils.startsWithIgnoreCase;
 
 public class UserInteractionHandler {
-    private enum CommandResult {
-        SUCCESS,
-        FAILURE,
-        EXIT
-    }
-
-    private final RecommendationService recommendationService;
-    private final Scanner scanner;
-
     private static final Pattern TELL_ABOUT_PATTERN = Pattern.compile(
             "(?i)Tell me about\\s+([A-Z][A-Za-z\\-\\s]+)\\."
     );
@@ -28,9 +20,14 @@ public class UserInteractionHandler {
             "(?i)I(\\s+also)?\\s+don't like ([A-Z][A-Za-z\\-\\s]+)\\."
     );
     private static final Pattern LIKE_DISLIKE_BY_ROLE_PATTERN = Pattern.compile(
-            "(?i)I(\\s+also)?(\\s+don't)?\\s+like people who are ([A-Za-z][A-Za-z\\-\\s]+)\\."
+            "(?i)I(\\s+also)?(\\s+don't)?\\s+like people who are\\s+([A-Za-z][A-Za-z\\-\\s]+)\\."
     );
-
+    private static final Pattern LIKE_DISLIKE_BY_RELATIONSHIP_PATTERN = Pattern.compile(
+            "(?i)I(\\s+also)?(\\s+don't)?\\s+like people that\\s+([a-z\\-\\s]+)\\s+" +
+                    "the person\\s+([A-Z][A-Za-z\\-\\s]+)\\."
+    );
+    private final RecommendationService recommendationService;
+    private final Scanner scanner;
     public UserInteractionHandler(RecommendationService service) {
         this.recommendationService = service;
         this.scanner = new Scanner(System.in);
@@ -69,6 +66,9 @@ public class UserInteractionHandler {
         if (TELL_ABOUT_PATTERN.matcher(input).matches()) {
             return handleTellAboutCommand(input);
         }
+        if (LIKE_DISLIKE_BY_RELATIONSHIP_PATTERN.matcher(input).matches()) {
+            return handleLikeDislikeByRelationshipCommand(input);
+        }
         if (LIKE_DISLIKE_BY_ROLE_PATTERN.matcher(input).matches()) {
             return handleLikeDislikeByRoleCommand(input);
         }
@@ -86,38 +86,38 @@ public class UserInteractionHandler {
 
     private CommandResult handleHelpCommand() {
         System.out.println("""
-            Supported commands:
-            - Help me : Show this help message.
-            - Tell me about <Character>. : Displays general info about this character.
-            - I [also] don't like <Character>. : Notes down that you don't like this character.
-            - I [also] [don't] like people who are <Role>. : Notes down that you [don't] like
-              people of this <Role>.
-            - I [also] [don't] like people that <Relationship> <Character>. : 
-              Notes down that you [don't] like people that have this <Relationship> with this <Character>.
-            - Exit / Quit / Goodbye : Exit this program.
-            Supported <Role>s:
-            - prosecutors, detectives, police officers, Interpol agents, Yatagarasu, criminals, thieves, killers,
-              dangerous criminals, smugglers, dead.
-            Supported <Relationship>s:
-            - kill, assist, friends of, victims of
-            Notes:
-            - Typing the optional "also" in your query will keep the context of the previous inquiries, up to the last 
-              one without "also", or the first one in the conversation.
-              E. g.
-              ```
-              I like defense attorneys.
-              I also don't like criminals.
-              ```
-              will look for characters who satisfy all conditions, but
-              ```
-              I like defense attorneys.
-              I don't like criminals.
-              ```
-              will discard the previous preferences and look only for characters satisfying the last condition.
-            - "who" is reserved for search by role, and "that" is reserved for search by relationship to other
-              characters.
-            - You can only write one predicate per query. But you can combine predicates with "also".
-            """);
+                Supported commands:
+                - Help me : Show this help message.
+                - Tell me about <Character>. : Displays general info about this character.
+                - I [also] don't like <Character>. : Notes down that you don't like this character.
+                - I [also] [don't] like people who are <Role>. : Notes down that you [don't] like
+                  people of this <Role>.
+                - I [also] [don't] like people that <Relationship> the person <Character>. : 
+                  Notes down that you [don't] like people that have this <Relationship> with this <Character>.
+                - Exit / Quit / Goodbye : Exit this program.
+                Supported <Role>s:
+                - prosecutors, detectives, police officers, Interpol agents, Yatagarasu, criminals, thieves, killers,
+                  dangerous criminals, smugglers, dead.
+                Supported <Relationship>s:
+                - kill, assist, are friends of, are victims of
+                Notes:
+                - Typing the optional "also" in your query will keep the context of the previous inquiries, up to the 
+                  last query without "also", or the first one in the conversation.
+                  E. g.
+                  ```
+                  I like defense attorneys.
+                  I also don't like criminals.
+                  ```
+                  will look for characters who satisfy all conditions, but
+                  ```
+                  I like defense attorneys.
+                  I don't like criminals.
+                  ```
+                  will discard the previous conditions and look only for characters satisfying the last condition.
+                - "who" is reserved for search by role, and "that" is reserved for search by relationship to other
+                  characters.
+                - You can only write one predicate per query. But you can combine predicates with "also".
+                """);
         return CommandResult.SUCCESS;
     }
 
@@ -162,14 +162,7 @@ public class UserInteractionHandler {
 
         List<String> resultList = recommendationService.recommendByDislikedPerson(character, retainContext);
 
-        if (resultList.isEmpty()) {
-            System.out.println("[!] No recommendations found.");
-            return CommandResult.FAILURE;
-        }
-
-        System.out.println("Here are the characters that might be to your liking (" + resultList.size() + ").");
-        resultList.forEach(it -> System.out.println("- " + it));
-        return CommandResult.SUCCESS;
+        return processRecommendation(resultList);
     }
 
     public CommandResult handleLikeDislikeByRoleCommand(String input) {
@@ -195,13 +188,13 @@ public class UserInteractionHandler {
 
         if (retainContext) {
             System.out.println("Got it. You " +
-                    (dislike ? "don't" : "") +
+                    (dislike ? "don't " : "") +
                     " like people with role: " +
                     role.getSingularName() +
                     ", and would also like to preserve previous filters.");
         } else {
             System.out.println("Got it. You " +
-                    (dislike ? "don't" : "") +
+                    (dislike ? "don't " : "") +
                     "like people with role: " +
                     role.getSingularName() + ".");
         }
@@ -211,6 +204,55 @@ public class UserInteractionHandler {
                 recommendationService.recommendByDislikedRole(role, retainContext) :
                 recommendationService.recommendByLikedRole(role, retainContext);
 
+        return processRecommendation(resultList);
+    }
+
+    private CommandResult handleLikeDislikeByRelationshipCommand(String input) {
+        Matcher matcher = LIKE_DISLIKE_BY_RELATIONSHIP_PATTERN.matcher(input);
+        if (!matcher.matches()) {
+            System.out.println("[!] Cannot parse command. Type \"Help me\" to see valid commands.");
+            return CommandResult.FAILURE;
+        }
+        boolean retainContext = matcher.group(1) != null && "also".equalsIgnoreCase(matcher.group(1).trim());
+        boolean dislike = matcher.group(2) != null && "don't".equalsIgnoreCase(matcher.group(2).trim());
+        CharacterRelationshipType relationshipType = matcher.group(3) != null ?
+                CharacterRelationshipType.byPluralName(matcher.group(3).trim()) : null;
+        String character = matcher.group(4) != null ? matcher.group(4).trim() : null;
+
+        if (relationshipType == null) {
+            System.out.println("[!] Relationship '" + matcher.group(3) + "' not found. Allowed relationships:");
+            System.out.println("- " +
+                    String.join(", " + Arrays.stream(CharacterRelationshipType.values())
+                            .map(CharacterRelationshipType::getPluralName).toList()
+                    ));
+            return CommandResult.FAILURE;
+        }
+        if (character == null) {
+            System.out.println("[!] Could not parse character name.");
+            return CommandResult.FAILURE;
+        }
+
+        if (retainContext) {
+            System.out.println("Got it. You " +
+                    (dislike ? "don't " : "") +
+                    "like people that " +
+                    relationshipType.getPluralName() + " " + character +
+                    ", and would also like to preserve previous filters.");
+        } else {
+            System.out.println("Got it. You " +
+                    (dislike ? "don't " : "") +
+                    "like people that " +
+                    relationshipType.getPluralName() + " " + character);
+        }
+
+        List<String> resultList = dislike ?
+                recommendationService.recommendByDislikedRelationship(relationshipType, character, retainContext) :
+                recommendationService.recommendByLikedRelationship(relationshipType, character, retainContext);
+
+        return processRecommendation(resultList);
+    }
+
+    private CommandResult processRecommendation(List<String> resultList) {
         if (resultList.isEmpty()) {
             System.out.println("[!] No recommendations found.");
             return CommandResult.FAILURE;
@@ -228,5 +270,11 @@ public class UserInteractionHandler {
             System.out.println("Recommendations found matching your preferences (" + results.size() + "):");
             results.forEach(it -> System.out.println("- " + it));
         }
+    }
+
+    private enum CommandResult {
+        SUCCESS,
+        FAILURE,
+        EXIT
     }
 }

@@ -1,11 +1,9 @@
 package org.vad1mchk.aisystems.lab02.knowledge;
 
 import org.jpl7.Query;
-import org.jpl7.Term;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class PrologQueryEngine {

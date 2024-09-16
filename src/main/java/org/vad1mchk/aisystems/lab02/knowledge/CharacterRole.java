@@ -25,14 +25,6 @@ public enum CharacterRole {
         this.pluralName = pluralName;
     }
 
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public String getSingularName() { return singularName; }
-
-    public String getPluralName() { return pluralName; }
-
     public static CharacterRole byRoleName(String roleName) {
         for (CharacterRole role : CharacterRole.values()) {
             if (role.getRoleName().equals(roleName)) {
@@ -49,5 +41,17 @@ public enum CharacterRole {
             }
         }
         return null;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public String getSingularName() {
+        return singularName;
+    }
+
+    public String getPluralName() {
+        return pluralName;
     }
 }

@@ -1,7 +1,5 @@
 package org.vad1mchk.aisystems.lab02;
 
-import org.vad1mchk.aisystems.lab02.knowledge.CharacterRelationshipType;
-import org.vad1mchk.aisystems.lab02.knowledge.CharacterRole;
 import org.vad1mchk.aisystems.lab02.knowledge.PrologQueryEngine;
 import org.vad1mchk.aisystems.lab02.knowledge.RecommendationService;
 
