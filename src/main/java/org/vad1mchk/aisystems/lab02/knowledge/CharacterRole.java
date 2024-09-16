@@ -1,5 +1,6 @@
 package org.vad1mchk.aisystems.lab02.knowledge;
 
+@SuppressWarnings("unused")
 public enum CharacterRole {
     PROSECUTOR("prosecutor", "prosecutors"),
     DETECTIVE("detective", "detectives"),
