@@ -12,5 +12,12 @@
 
 ## Описание предметной области
 
-- На основе видеоигры [*Ace Attorney Investigations: Miles Edgeworth*](https://en.wikipedia.org/wiki/Ace_Attorney_Investigations:_Miles_Edgeworth) (2009).
-- База знаний описывает персонажей этой видеоигры (большинство), их роли и отношения между ними. Осторожно, СПОЙЛЕРЫ!
+- **Осторожно, СПОЙЛЕРЫ**!
+- База знаний основывается на серии визуальных новелл [*Ace Attorney*](https://ru.wikipedia.org/wiki/Ace_Attorney) и описывает персонажей этих видеоигр (большинство), их роли и отношения между ними. 
+- [Основная база знаний](./aai_characters.pl) составлена на основе видеоигры [*Ace Attorney Investigations: Miles Edgeworth*](https://ru.wikipedia.org/wiki/Ace_Attorney_Investigations:_Miles_Edgeworth) (2009).
+- [Тестовая база знаний](./src/test/resources/pwaa_characters.pl) составлена на основе [первого эпизода](https://aceattorney.fandom.com/wiki/The_First_Turnabout) видеоигры [*Phoenix Wright: Ace Attorney*](https://ru.wikipedia.org/wiki/Phoenix_Wright:_Ace_Attorney) (2001).
+
+## Использованные технологии
+
+- Java + JPL
+- SWI-Prolog
