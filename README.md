@@ -57,7 +57,7 @@
       I like people who are defense attorneys.
       I also don't like people who are criminals.
       ```
-    - Сбрасывает предыдущие фильтры; выводит всех персонажей, которые не преступники, при этом они могут и не быть адвокатами:
+    - Сбрасывает предыдущие фильтры; выводит всех персонажей, которые не преступники. Предыдущий фильтр (нам нужны адвокаты) не используется:
       ```
       I like people who are defense attorneys.
       I don't like people who are criminals.
