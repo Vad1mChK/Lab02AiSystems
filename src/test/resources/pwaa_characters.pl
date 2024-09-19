@@ -2,7 +2,7 @@ defense_attorney('Phoenix Wright').
 defense_attorney('Mia Fey').
 prosecutor('Winston Payne').
 thief('Frank Sahwit').
-character('Judge').
+character('The Judge').
 character('Larry Butz').
 character('Cindy Stone').
 

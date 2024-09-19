@@ -53,6 +53,7 @@ character('Wendy Oldbag').
 character('Mack Rell').
 character('Cece Yew').
 character('Deid Mann').
+character('The Judge').
 character('Larry Butz').
 character('Colias Palaeno').
 
