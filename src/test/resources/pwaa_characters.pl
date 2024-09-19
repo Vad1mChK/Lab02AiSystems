@@ -15,7 +15,8 @@ kills('Frank Sahwit', 'Cindy Stone').
 character(X) :-
     defense_attorney(X),
     prosecutor(X),
-    criminal(X).
+    criminal(X),
+    dead(X).
 friends(X, Y) :- friend(X, Y); friend(Y, X).
 killer(X) :- kills(X, _).
 victim(X, Y) :- kills(Y, X).

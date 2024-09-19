@@ -104,7 +104,8 @@ character(X) :-
     interpol_agent(X);
     defense_attorney(X);
     yatagarasu(X);
-    criminal(X).  % First and foremost, people of all occupations are characters.
+    criminal(X),
+    dead(X).  % First and foremost, people of all roles are characters.
 
 
 % Queries of varying difficulty:
