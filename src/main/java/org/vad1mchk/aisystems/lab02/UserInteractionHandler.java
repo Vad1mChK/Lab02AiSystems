@@ -189,7 +189,7 @@ public class UserInteractionHandler {
         if (retainContext) {
             System.out.println("Got it. You " +
                     (dislike ? "don't " : "") +
-                    " like people with role: " +
+                    "like people with role: " +
                     role.getSingularName() +
                     ", and would also like to preserve previous filters.");
         } else {
