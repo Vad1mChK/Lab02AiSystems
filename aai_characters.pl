@@ -104,7 +104,7 @@ character(X) :-
     interpol_agent(X);
     defense_attorney(X);
     yatagarasu(X);
-    criminal(X),
+    criminal(X);
     dead(X).  % First and foremost, people of all roles are characters.
 
 
