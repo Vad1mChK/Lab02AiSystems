@@ -12,8 +12,12 @@ friend('Larry Butz', 'Cindy Stone').
 assists('Phoenix Wright', 'Mia Fey').
 kills('Frank Sahwit', 'Cindy Stone').
 
+character(X) :-
+    defense_attorney(X),
+    prosecutor(X),
+    criminal(X).
 friends(X, Y) :- friend(X, Y); friend(Y, X).
 killer(X) :- kills(X, _).
 victim(X, Y) :- kills(Y, X).
 criminal(X) :- killer(X); thief(X).
-dead(X) :- victim(X, _).
+dead(X) :- character(X), victim(X, _).
