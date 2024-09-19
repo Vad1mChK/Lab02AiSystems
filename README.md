@@ -16,6 +16,36 @@
 - База знаний основывается на серии визуальных новелл [*Ace Attorney*](https://ru.wikipedia.org/wiki/Ace_Attorney) и описывает персонажей этих видеоигр (большинство), их роли и отношения между ними. 
 - [Основная база знаний](./aai_characters.pl) составлена на основе видеоигры [*Ace Attorney Investigations: Miles Edgeworth*](https://ru.wikipedia.org/wiki/Ace_Attorney_Investigations:_Miles_Edgeworth) (2009).
 - [Тестовая база знаний](./src/test/resources/pwaa_characters.pl) составлена на основе [первого эпизода](https://aceattorney.fandom.com/wiki/The_First_Turnabout) видеоигры [*Phoenix Wright: Ace Attorney*](https://ru.wikipedia.org/wiki/Phoenix_Wright:_Ace_Attorney) (2001).
+- Факты (роли):
+  ```prolog
+  character(X).  % X -- персонаж.
+  prosecutor(X).  % X -- прокурор.
+  detective(X).  % X -- детектив.
+  % и т. д.
+  ```
+- Факты (отношения):
+  ```prolog
+  friend(X, Y).  % X -- друг Y. Одностороннее отношение. Используйте его, чтобы задавать факт дружбы.
+  friends(X, Y).  % X и Y -- друзья. Симметричное отношение. Используйте, когда нужно сделать запрос к базе знаний.
+  assists(X, Y).  % X помогает Y. Одностороннее отношение.
+  kills(X, Y).  % X убивает Y. Одностороннее отношение.
+  victim(X, Y).  % X -- жертва Y. Одностороннее отношение. 
+  % и т. д.
+  ```
+- Правила:
+  ```prolog
+  friends(X, Y) :- friend(X, Y); friend(Y, X).  % Если указано, что X -- друг Y или Y -- друг X, то X и Y -- друзья.
+  character(X) :-
+      prosecutor(X);
+      detective(X);
+      police_officer(X);
+      interpol_agent(X);
+      defense_attorney(X);
+      yatagarasu(X);
+      criminal(X);
+      dead(X). % Представители всех ролей -- это персонажи.
+  % и т. д.
+  ```
 
 ## Взаимодействие с системой рекомендации
 
