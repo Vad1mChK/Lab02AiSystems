@@ -91,7 +91,7 @@ victim(X, Y) :- kills(Y, X).  % A murder victim is the one who's killed.
 dead(X) :- character(X), victim(X, _).  % A dead person can be a murder victim (For now, we don't have characters who die from other causes).
 thief(X) :- yatagarasu(X).  % The Yatagarasu is a noble, vigilante thief, but not technically a criminal.
 killer(X) :- kills(X, _).  % A killer is a person who kills someone.
-smuggler(X) :- assists(X, 'Quercus Alba'). % Quercus Alba is the leader of the smuggling ring. His direct assistants are smugglers.
+smuggler(X) :- assists(X, 'Quercus Alba'). % Quercus Alba is the leader of the smuggling ring. His direct assistants are smugglers. 
 dangerous_criminal(X) :- smuggler(X).  % Smugglers are one type of dangerous criminals that the Interpol pursues.
 criminal(X) :-
     dangerous_criminal(X);
@@ -104,34 +104,33 @@ character(X) :-
     interpol_agent(X);
     defense_attorney(X);
     yatagarasu(X);
-    criminal(X);
-    dead(X).  % First and foremost, people of all roles are characters.
+    criminal(X).  % First and foremost, people of all occupations are characters.
 
 
 % Queries of varying difficulty:
 
 % Simple queries:
 /*
-    ?- prosecutor('Miles Edgeworth').
+    ?- prosecutor('Miles Edgeworth').  
         % Is Miles Edgeworth a prosecutor?
         % true
-    ?- yatagarasu('Kay Faraday').
+    ?- yatagarasu('Kay Faraday').  
         % Is Kay Faraday a Yatagarasu?
         % true
-    ?- detective('Dick Gumshoe').
+    ?- detective('Dick Gumshoe').  
         % Is Dick Gumshoe a detective?
         % true
-    ?- interpol_agent('Miles Edgeworth').
+    ?- interpol_agent('Miles Edgeworth').  
         % Is Miles Edgeworth an Interpol agent>
         % false
-    ?- police_officer('Rhoda Teneiro').
+    ?- police_officer('Rhoda Teneiro').  
         % Is Rhoda Teneiro a police officer?
         % false
 */
 
 % Queries using logical operators (AND, OR, NOT)
 /*
-    ?- detective('Dick Gumshoe'), police_officer('Dick Gumshoe').
+    ?- detective('Dick Gumshoe'), police_officer('Dick Gumshoe').  
         % Is Dick Gumshoe a police detective?
         % true
     ?- prosecutor('Miles Edgeworth'); defense_attorney('Miles Edgeworth').  
