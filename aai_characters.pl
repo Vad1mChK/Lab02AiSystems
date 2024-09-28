@@ -64,8 +64,14 @@ friend('Miles Edgeworth', 'Kay Faraday').
 friend('Miles Edgeworth', 'Larry Butz').
 friend('Dick Gumshoe', 'Maggey Byrde').
 friend('Dick Gumshoe', 'Kay Faraday').
+friend('Franziska von Karma', 'Kay Faraday').
+friend('Franziska von Karma', 'Shi-Long Lang').
 friend('Akbey Hicks', 'Shi-Long Lang').
+friend('Kay Faraday', 'Tyrell Badd').
+friend('Kay Faraday', 'Ema Skye').
+friend('Ernest Amano', 'Manfred von Karma').
 friend('Byrne Faraday', 'Tyrell Badd').
+friend('Manny Coachen', 'Colias Palaeno').
 % Murders
 kills('Jacques Portsman', 'Buddy Faith').
 kills('Cammy Meele', 'Akbey Hicks').
